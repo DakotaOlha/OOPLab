@@ -1,5 +1,5 @@
-// Лабораторна робота №3, варіант 14 «Система Платежі».
-// п.17: Реалізація класу асоціації Payment.
+// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
+// ЛР4 п.13: реалізація класу асоціації Payment (з ЛР3, ЛР3 п.17).
 
 #include "payment.h"
 
@@ -9,7 +9,6 @@
 #include "client.h"
 #include "order.h"
 
-// п.2: константи (id_, date_, type_) і посилання (payer_, order_)
 Payment::Payment(int id, const std::string& date, PaymentType type,
                  Client& payer, Order& order)
     : id_(id),
@@ -22,8 +21,6 @@ Payment::Payment(int id, const std::string& date, PaymentType type,
             << date_ << '\n';
 }
 
-// п.1: конструктор копіювання — копія посилається на тих самих клієнта
-// і замовлення.
 Payment::Payment(const Payment& other)
     : id_(other.id_),
       date_(other.date_),
@@ -35,7 +32,7 @@ Payment::Payment(const Payment& other)
             << '\n';
 }
 
-// п.11: взаємодія трьох об'єктів — Payment пов'язує Client та Order.
+// ЛР3 п.11: взаємодія трьох об'єктів — Payment пов'язує Client та Order.
 bool Payment::Execute() {
   std::cout << "  Виконання платежу #" << id_ << " за замовлення #"
             << order_.id() << ":\n";
@@ -47,7 +44,7 @@ bool Payment::Execute() {
   completed_ =
       payer_.PayOrder(order_.amount(), type_ == PaymentType::kAccount);
   if (completed_)
-      order_.MarkPaid();
+    order_.MarkPaid();
 
   return completed_;
 }

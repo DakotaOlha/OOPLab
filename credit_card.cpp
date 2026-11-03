@@ -1,5 +1,5 @@
-// Лабораторна робота №3, варіант 14 «Система Платежі».
-// п.17: Реалізація класу CreditCard.
+// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
+// ЛР4 п.13: реалізація класу CreditCard (з ЛР3, ЛР3 п.17).
 
 #include "credit_card.h"
 
@@ -25,13 +25,12 @@ void SkipRestOfLine(std::ifstream& in) {
   in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-}
+}  // namespace
 
-// п.4: визначення статичних полів (пам'ять під них виділяється один раз).
+// ЛР3 п.4: визначення статичних полів (пам'ять виділяється один раз).
 int CreditCard::alive_count_ = 0;
 int CreditCard::created_count_ = 0;
 
-// п.1: конструктор без параметрів (поля задаються списком ініціалізації).
 CreditCard::CreditCard()
     : bank_name_("—"),
       card_type_("—"),
@@ -47,7 +46,7 @@ CreditCard::CreditCard()
             << short_number() << '\n';
 }
 
-// п.1, п.2: конструктор з параметрами через список ініціалізації.
+// ЛР3 п.2: поля задаються списком ініціалізації.
 CreditCard::CreditCard(const std::string& number, const std::string& bank_name,
                        const std::string& card_type, int expiry_year,
                        double credit_limit)
@@ -65,7 +64,6 @@ CreditCard::CreditCard(const std::string& number, const std::string& bank_name,
             << short_number() << '\n';
 }
 
-// п.1: конструктор копіювання.
 CreditCard::CreditCard(const CreditCard& other)
     : bank_name_(other.bank_name_),
       card_type_(other.card_type_),
@@ -81,14 +79,12 @@ CreditCard::CreditCard(const CreditCard& other)
             << short_number() << '\n';
 }
 
-// п.3: деструктор.
 CreditCard::~CreditCard() {
   --alive_count_;
   std::cout << "    [~CreditCard()] знищено картку " << short_number()
             << " (карток залишилось: " << alive_count_ << ")\n";
 }
 
-// п.4: статичний метод працює лише зі статичними полями.
 void CreditCard::PrintStatistics() {
   std::cout << "  Статистика CreditCard: існує " << alive_count_
             << ", створено за весь час " << created_count_ << '\n';

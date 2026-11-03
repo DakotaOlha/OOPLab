@@ -1,5 +1,5 @@
-// Лабораторна робота №3, варіант 14 «Система Платежі».
-// п.17: Реалізація класу Client.
+// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
+// ЛР4 п.13: реалізація класу Client (з ЛР3, ЛР3 п.17).
 
 #include "client.h"
 
@@ -13,13 +13,12 @@ void SkipRestOfLine(std::ifstream& in) {
   in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-}
+}  // namespace
 
-// п.4: визначення статичних полів.
+// ЛР3 п.4: визначення статичних полів.
 double Client::commission_percent_ = 1.0;
 int Client::alive_count_ = 0;
 
-// п.1: конструктор без параметрів.
 Client::Client()
     : first_name_("—"),
       last_name_("Невідомий"),
@@ -34,8 +33,8 @@ Client::Client()
             << last_name_ << '\n';
 }
 
-// п.1, п.2: конструктор з параметрами через список ініціалізації.
-// п.13: вкладений об'єкт card_ створюється тут же, у списку ініціалізації.
+// ЛР3 п.2, п.13: поля і вкладений об'єкт card_ задаються списком
+// ініціалізації.
 Client::Client(int client_id, const std::string& first_name,
                const std::string& last_name, const std::string& phone,
                const std::string& account_number, double account_balance,
@@ -53,7 +52,6 @@ Client::Client(int client_id, const std::string& first_name,
             << last_name_ << '\n';
 }
 
-// п.1: конструктор копіювання.
 Client::Client(const Client& other)
     : first_name_(other.first_name_),
       last_name_(other.last_name_),
@@ -68,15 +66,12 @@ Client::Client(const Client& other)
             << last_name_ << '\n';
 }
 
-// п.3: деструктор. Після нього автоматично викликається ~CreditCard()
-// для вкладеної картки (п.13 — композиція).
 Client::~Client() {
   --alive_count_;
   std::cout << "    [~Client()] знищено клієнта " << last_name_
             << " (клієнтів залишилось: " << alive_count_ << ")\n";
 }
 
-// п.4: статичний метод змінює комісію одразу для всіх клієнтів.
 void Client::set_commission_percent(double percent) {
   if (percent >= 0.0)
     commission_percent_ = percent;

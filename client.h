@@ -1,5 +1,5 @@
-// Лабораторна робота №3, варіант 14 «Система Платежі».
-// п.17: заголовний файл класу Client.
+// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
+// ЛР4 п.13: заголовний файл класу Client (з ЛР3, ЛР3 п.17).
 
 #ifndef CLIENT_H_
 #define CLIENT_H_
@@ -15,17 +15,16 @@ class Client {
   std::string last_name_;
   std::string phone_;
 
-  // п.1: конструктор без параметрів.
+  // ЛР3 п.1: конструктори без параметрів, з параметрами та копіювання.
   Client();
-  // п.1: конструктор з параметрами.
   Client(int client_id, const std::string& first_name,
          const std::string& last_name, const std::string& phone,
          const std::string& account_number, double account_balance,
          const CreditCard& card);
-  // п.1: конструктор копіювання.
   Client(const Client& other);
   Client& operator=(const Client& other) = default;
-  // п.3: деструктор — показує вихід об'єкта з блоку програми.
+  // ЛР3 п.3: деструктор показує вихід об'єкта з блоку програми;
+  // після нього автоматично викликається ~CreditCard() для card_.
   ~Client();
 
   bool PayOrder(double amount);
@@ -47,7 +46,7 @@ class Client {
   const CreditCard& card() const { return card_; }
   CreditCard& mutable_card() { return card_; }
 
-  // п.4: статичні методи — спільна комісія для всіх клієнтів банку.
+  // ЛР3 п.4: статичні методи — спільна комісія для всіх клієнтів банку.
   static double commission_percent() { return commission_percent_; }
   static void set_commission_percent(double percent);
   static int alive_count() { return alive_count_; }
@@ -57,12 +56,12 @@ class Client {
   std::string account_number_;
   double account_balance_;
   bool account_active_;
-  // п.13: композиція — картка є частиною клієнта і живе стільки ж, скільки клієнт
+  // ЛР3 п.13: композиція — картка є частиною клієнта і живе разом з ним.
   CreditCard card_;
 
-  // п.4: статичні поля — одні на всі об'єкти класу Client.
+  // ЛР3 п.4: статичні поля — одні на всі об'єкти класу Client.
   static double commission_percent_;
   static int alive_count_;
 };
 
-#endif
+#endif  // CLIENT_H_

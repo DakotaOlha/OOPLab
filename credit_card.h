@@ -1,5 +1,5 @@
-// Лабораторна робота №3, варіант 14 «Система Платежі».
-// п.17: заголовний файл класу CreditCard.
+// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
+// ЛР4 п.13: заголовний файл класу CreditCard (з ЛР3, ЛР3 п.17).
 
 #ifndef CREDIT_CARD_H_
 #define CREDIT_CARD_H_
@@ -11,20 +11,18 @@ constexpr double kTransferCommissionPercent = 1.0;
 
 class CreditCard {
  public:
-  std::string bank_name_;  // назва банку
-  std::string card_type_;  // платіжна система (Visa, Mastercard)
-  int expiry_year_;        // рік закінчення дії
+  std::string bank_name_;
+  std::string card_type_;  // Visa, Mastercard
+  int expiry_year_;
 
-  // п.1: конструктор без параметрів.
+  // ЛР3 п.1: конструктори без параметрів, з параметрами та копіювання.
   CreditCard();
-  // п.1: конструктор з параметрами.
   CreditCard(const std::string& number, const std::string& bank_name,
              const std::string& card_type, int expiry_year,
              double credit_limit);
-  // п.1: конструктор копіювання.
   CreditCard(const CreditCard& other);
   CreditCard& operator=(const CreditCard& other) = default;
-  // п.3: деструктор — показує, коли об'єкт виходить з блоку програми.
+  // ЛР3 п.3: деструктор показує, коли об'єкт виходить з блоку програми.
   ~CreditCard();
 
   bool Pay(double amount);
@@ -51,22 +49,22 @@ class CreditCard {
   bool is_blocked() const { return blocked_; }
   void set_credit_limit(double credit_limit);
 
-  // п.4: статичні методи класу — викликаються без об'єкта:
-  // CreditCard::alive_count(), CreditCard::PrintStatistics().
+  // ЛР3 п.4: статичні методи викликаються без об'єкта і працюють лише
+  // зі статичними полями.
   static int alive_count() { return alive_count_; }
   static int created_count() { return created_count_; }
   static void PrintStatistics();
 
  private:
-  std::string number_;     // номер картки
-  double balance_;         // баланс (від'ємний = використаний кредит)
-  double credit_limit_;    // кредитний ліміт
-  int transaction_count_;  // кількість операцій
-  bool blocked_;           // чи заблокована картка
+  std::string number_;
+  double balance_;  // від'ємний баланс = використаний кредит
+  double credit_limit_;
+  int transaction_count_;
+  bool blocked_;
 
-  // п.4: статичні поля — одні на всі об'єкти класу.
-  static int alive_count_;    // скільки карток існує зараз
-  static int created_count_;  // скільки карток створено за весь час
+  // ЛР3 п.4: статичні поля — одні на всі об'єкти класу.
+  static int alive_count_;
+  static int created_count_;
 };
 
-#endif
+#endif  // CREDIT_CARD_H_

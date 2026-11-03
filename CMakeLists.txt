@@ -9,4 +9,12 @@ add_executable(Lab3_OOP
         client.cpp
         order.cpp
         payment.cpp
-        administrator.cpp)
+        administrator.cpp
+        bank_account.cpp
+        current_account.cpp
+        savings_account.cpp
+        credit_account.cpp
+        installment_plan.cpp
+        insurance.cpp
+        loyalty_program.cpp
+        premium_account.cpp)
