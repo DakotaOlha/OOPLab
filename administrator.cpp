@@ -1,5 +1,5 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
-// п.17: cpp-файл з реалізацією класу Administrator.
+// Лабораторна робота №3, варіант 14 «Система Платежі».
+// п.17: Реалізація класу Administrator.
 
 #include "administrator.h"
 
@@ -32,9 +32,6 @@ void Administrator::CheckAllCards() {
   for (Client* client : clients_) client->mutable_card().CheckCreditLimit();
 }
 
-// Запит клієнта на зміну кредитного ліміту (варіант 14).
-// Правило: зменшення ліміту — завжди; збільшення — якщо картка не
-// заблокована, а на рахунку є щонайменше 20% від нового ліміту.
 bool Administrator::ReviewLimitRequest(Client* client, double new_limit) {
   if (client == nullptr) return false;
   CreditCard& card = client->mutable_card();

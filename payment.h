@@ -1,4 +1,4 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
+// Лабораторна робота №3, варіант 14 «Система Платежі».
 // п.17: заголовний файл класу Payment.
 //
 // п.11: Payment — клас асоціації між Client і Order. Сам зв'язок
@@ -18,14 +18,12 @@ enum class PaymentType { kCard, kAccount };
 class Payment {
  public:
   // п.2: конструктор зі списком ініціалізації. Константні поля та поля-
-  // посилання можна задати ТІЛЬКИ у списку ініціалізації.
+  // посилання можна задати тільки у списку ініціалізації.
   Payment(int id, const std::string& date, PaymentType type, Client& payer,
           Order& order);
   // п.1: конструктор копіювання.
   Payment(const Payment& other);
-  // Присвоєння неможливе: константи та посилання не можна перепризначити.
   Payment& operator=(const Payment& other) = delete;
-  // Конструктора без параметрів немає: посилання не може бути «порожнім».
 
   bool Execute();
   void Print() const;
@@ -41,4 +39,4 @@ class Payment {
   bool completed_;
 };
 
-#endif  // PAYMENT_H_
+#endif

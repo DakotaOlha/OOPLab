@@ -1,4 +1,4 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
+// Лабораторна робота №3, варіант 14 «Система Платежі».
 // п.17: cpp-файл демонстраційної програми.
 //
 // Файли проєкту:
@@ -29,7 +29,7 @@ void PrintHeader(const std::string& title) {
   std::cout << "\n========== " << title << " ==========\n";
 }
 
-}  // namespace
+}
 
 // ---------------------------------------------------------------------------
 // п.5: функція поза класом, параметр — ОБ'ЄКТ класу (передається копія,
@@ -41,11 +41,13 @@ void PrintFinancialReport(Client client) {
   const double debt = card.balance() < 0.0 ? -card.balance() : 0.0;
   const double own_on_card = card.balance() > 0.0 ? card.balance() : 0.0;
   double available_credit = card.credit_limit() - debt;
-  if (available_credit < 0.0) available_credit = 0.0;
-  const double usage_percent =
-      card.credit_limit() > 0.0 ? debt / card.credit_limit() * 100.0 : 0.0;
-  const double total_available =
-      client.account_balance() + own_on_card + available_credit;
+
+  if (available_credit < 0.0)
+    available_credit = 0.0;
+
+  const double usage_percent = card.credit_limit() > 0.0 ? debt / card.credit_limit() * 100.0 : 0.0;
+
+  const double total_available = client.account_balance() + own_on_card + available_credit;
 
   std::cout << std::fixed << std::setprecision(2)
             << "  Фінансовий звіт (копія об'єкта) — " << client.last_name_
@@ -63,20 +65,25 @@ void PrintFinancialReport(Client client) {
 // Копія не створюється. Обчислює план виплат кредитного боргу на 3 місяці.
 // ---------------------------------------------------------------------------
 void PrintFinancialReport(const Client* client) {
-  if (client == nullptr) return;
+  if (client == nullptr)
+    return;
+
   constexpr int kMonths = 3;
   constexpr double kMonthlyRatePercent = 2.0;
 
   const double balance = client->card().balance();
   const double debt = balance < 0.0 ? -balance : 0.0;
+
   std::cout << std::fixed << std::setprecision(2)
             << "  План виплат (через адресу об'єкта) — " << client->last_name_
             << ", борг " << debt << " грн:\n";
+
   if (debt == 0.0) {
     std::cout << "    Боргу немає, план виплат не потрібен.\n";
     return;
   }
   const double total = debt * (1.0 + kMonthlyRatePercent / 100.0 * kMonths);
+
   for (int month = 1; month <= kMonths; ++month) {
     std::cout << "    Місяць " << month << ": " << total / kMonths << " грн\n";
   }
@@ -91,9 +98,10 @@ void PrintFinancialReport(const Client* client) {
 Client MakePremiumClient(const Client& base, double premium_limit) {
   std::cout << "  Оформлення преміум-обслуговування для " << base.last_name_
             << ":\n";
+
   Client premium = base.ReissueCard(base.card().expiry_year_ + 4);
   premium.mutable_card().set_credit_limit(premium_limit);
-  premium.mutable_card().TopUp(500.0);  // вітальний бонус
+  premium.mutable_card().TopUp(500.0);
   return premium;
 }
 

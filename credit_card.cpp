@@ -1,5 +1,5 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
-// п.17: cpp-файл з реалізацією класу CreditCard.
+// Лабораторна робота №3, варіант 14 «Система Платежі».
+// п.17: Реалізація класу CreditCard.
 
 #include "credit_card.h"
 
@@ -25,7 +25,7 @@ void SkipRestOfLine(std::ifstream& in) {
   in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-}  // namespace
+}
 
 // п.4: визначення статичних полів (пам'ять під них виділяється один раз).
 int CreditCard::alive_count_ = 0;
@@ -95,11 +95,15 @@ void CreditCard::PrintStatistics() {
 }
 
 std::string CreditCard::short_number() const {
-  if (number_.size() < 4) return number_;
+  if (number_.size() < 4)
+    return number_;
+
   return "*" + number_.substr(number_.size() - 4);
 }
 
-bool CreditCard::Pay(double amount) { return Pay(amount, 0.0); }
+bool CreditCard::Pay(double amount) {
+  return Pay(amount, 0.0);
+}
 
 bool CreditCard::Pay(double amount, double commission_percent) {
   if (blocked_) {
@@ -107,12 +111,14 @@ bool CreditCard::Pay(double amount, double commission_percent) {
               << "] Відмова: картку заблоковано.\n";
     return false;
   }
+
   const double total = amount * (1.0 + commission_percent / 100.0);
   if (balance_ - total < -credit_limit_) {
     std::cout << "  [Картка " << short_number()
               << "] Відмова: недостатньо коштів з урахуванням ліміту.\n";
     return false;
   }
+
   balance_ -= total;
   ++transaction_count_;
   std::cout << std::fixed << std::setprecision(2) << "  [Картка "
@@ -120,12 +126,16 @@ bool CreditCard::Pay(double amount, double commission_percent) {
   if (commission_percent > 0.0) {
     std::cout << " (з них комісія " << total - amount << " грн)";
   }
+
   std::cout << ". Баланс: " << balance_ << " грн\n";
+
   return true;
 }
 
 void CreditCard::TopUp(double amount) {
-  if (amount <= 0.0) return;
+  if (amount <= 0.0)
+    return;
+
   balance_ += amount;
   ++transaction_count_;
   std::cout << std::fixed << std::setprecision(2) << "  [Картка "
@@ -134,7 +144,9 @@ void CreditCard::TopUp(double amount) {
 }
 
 bool CreditCard::TransferTo(CreditCard& other, double amount) {
-  if (!Pay(amount, kTransferCommissionPercent)) return false;
+  if (!Pay(amount, kTransferCommissionPercent))
+    return false;
+
   other.TopUp(amount);
   return true;
 }
@@ -155,8 +167,10 @@ bool CreditCard::CheckCreditLimit() {
               << " заблоковано за перевищення кредиту!\n";
     return false;
   }
+
   std::cout << "  [Адміністратор] Картка " << short_number()
             << ": кредитний ліміт не перевищено.\n";
+
   return true;
 }
 
@@ -171,7 +185,8 @@ void CreditCard::Unblock() {
 }
 
 void CreditCard::set_credit_limit(double credit_limit) {
-  if (credit_limit >= 0.0) credit_limit_ = credit_limit;
+  if (credit_limit >= 0.0)
+    credit_limit_ = credit_limit;
 }
 
 void CreditCard::Print() const {
@@ -192,7 +207,9 @@ void CreditCard::SaveToFile(std::ofstream& out) const {
 }
 
 bool CreditCard::LoadFromFile(std::ifstream& in) {
-  if (!std::getline(in, number_)) return false;
+  if (!std::getline(in, number_))
+    return false;
+
   std::getline(in, bank_name_);
   std::getline(in, card_type_);
   in >> expiry_year_ >> balance_ >> credit_limit_ >> transaction_count_ >>
@@ -204,14 +221,20 @@ bool CreditCard::LoadFromFile(std::ifstream& in) {
 void CreditCard::SortRandomExpiryYears() const {
   const int size = RandomInt(5, 15);
   int* years = new int[size];
-  for (int i = 0; i < size; ++i) years[i] = expiry_year_ + RandomInt(-5, 5);
+  for (int i = 0; i < size; ++i)
+    years[i] = expiry_year_ + RandomInt(-5, 5);
 
   std::cout << "  Виділено пам'ять під " << size << " значень.\n"
             << "  До сортування:   ";
-  for (int i = 0; i < size; ++i) std::cout << years[i] << ' ';
+
+  for (int i = 0; i < size; ++i)
+    std::cout << years[i] << ' ';
+
   std::sort(years, years + size);
   std::cout << "\n  Після сортування: ";
-  for (int i = 0; i < size; ++i) std::cout << years[i] << ' ';
+  for (int i = 0; i < size; ++i)
+    std::cout << years[i] << ' ';
+
   std::cout << '\n';
 
   delete[] years;

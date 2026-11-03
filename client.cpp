@@ -1,5 +1,5 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
-// п.17: cpp-файл з реалізацією класу Client.
+// Лабораторна робота №3, варіант 14 «Система Платежі».
+// п.17: Реалізація класу Client.
 
 #include "client.h"
 
@@ -13,7 +13,7 @@ void SkipRestOfLine(std::ifstream& in) {
   in.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-}  // namespace
+}
 
 // п.4: визначення статичних полів.
 double Client::commission_percent_ = 1.0;
@@ -78,7 +78,8 @@ Client::~Client() {
 
 // п.4: статичний метод змінює комісію одразу для всіх клієнтів.
 void Client::set_commission_percent(double percent) {
-  if (percent >= 0.0) commission_percent_ = percent;
+  if (percent >= 0.0)
+    commission_percent_ = percent;
 }
 
 bool Client::PayOrder(double amount) {
@@ -88,7 +89,8 @@ bool Client::PayOrder(double amount) {
 }
 
 bool Client::PayOrder(double amount, bool from_account) {
-  if (!from_account) return PayOrder(amount);
+  if (!from_account)
+    return PayOrder(amount);
 
   std::cout << "  " << last_name_ << " оплачує " << amount
             << " грн з рахунку " << account_number_ << ".\n";
@@ -96,20 +98,23 @@ bool Client::PayOrder(double amount, bool from_account) {
     std::cout << "  Відмова: рахунок анульовано.\n";
     return false;
   }
+
   if (account_balance_ < amount) {
     std::cout << "  Відмова: недостатньо коштів на рахунку.\n";
     return false;
   }
+
   account_balance_ -= amount;
   std::cout << std::fixed << std::setprecision(2)
             << "  Оплачено. Залишок на рахунку: " << account_balance_
             << " грн\n";
+
   return true;
 }
 
-// Використовує статичне поле commission_percent_, спільне для всіх клієнтів.
 bool Client::TransferToClient(Client& other, double amount) {
   const double total = amount * (1.0 + commission_percent_ / 100.0);
+
   std::cout << std::fixed << std::setprecision(2) << "  Платіж " << amount
             << " грн: " << last_name_ << " -> " << other.last_name_
             << " (комісія " << commission_percent_ << "%)\n";
@@ -117,13 +122,16 @@ bool Client::TransferToClient(Client& other, double amount) {
     std::cout << "  Відмова: один із рахунків анульовано.\n";
     return false;
   }
+
   if (account_balance_ < total) {
     std::cout << "  Відмова: недостатньо коштів на рахунку.\n";
     return false;
   }
+
   account_balance_ -= total;
   other.account_balance_ += amount;
   std::cout << "  Успішно. Списано " << total << " грн\n";
+
   return true;
 }
 
@@ -133,6 +141,7 @@ Client Client::ReissueCard(int new_expiry_year) const {
   std::cout << "  Картку клієнта " << last_name_ << " перевипущено: "
             << card_.short_number() << " -> " << updated.card_.short_number()
             << '\n';
+
   return updated;
 }
 
@@ -171,12 +180,16 @@ void Client::SaveToFile(std::ofstream& out) const {
 }
 
 bool Client::LoadFromFile(std::ifstream& in) {
-  if (!(in >> client_id_)) return false;
+  if (!(in >> client_id_))
+    return false;
+
   SkipRestOfLine(in);
+
   std::getline(in, first_name_);
   std::getline(in, last_name_);
   std::getline(in, phone_);
   std::getline(in, account_number_);
+
   in >> account_balance_ >> account_active_;
   SkipRestOfLine(in);
   return card_.LoadFromFile(in);

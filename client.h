@@ -1,5 +1,5 @@
-// Лабораторна робота №3, третій рівень, варіант 14 «Система Платежі».
-// п.17: заголовний файл класу Client (клієнт банку).
+// Лабораторна робота №3, варіант 14 «Система Платежі».
+// п.17: заголовний файл класу Client.
 
 #ifndef CLIENT_H_
 #define CLIENT_H_
@@ -11,7 +11,6 @@
 
 class Client {
  public:
-  // 3 загальні (public) елементи.
   std::string first_name_;
   std::string last_name_;
   std::string phone_;
@@ -29,7 +28,6 @@ class Client {
   // п.3: деструктор — показує вихід об'єкта з блоку програми.
   ~Client();
 
-  // Методи обробки даних (з ЛР2).
   bool PayOrder(double amount);
   bool PayOrder(double amount, bool from_account);
   bool TransferToClient(Client& other, double amount);
@@ -39,11 +37,9 @@ class Client {
 
   void Print() const;
 
-  // Запис у файл та читання з файлу (з ЛР2).
   void SaveToFile(std::ofstream& out) const;
   bool LoadFromFile(std::ifstream& in);
 
-  // Методи доступу до приватних полів.
   int client_id() const { return client_id_; }
   const std::string& account_number() const { return account_number_; }
   double account_balance() const { return account_balance_; }
@@ -57,18 +53,16 @@ class Client {
   static int alive_count() { return alive_count_; }
 
  private:
-  // 5 приватних елементів.
-  int client_id_;               // ідентифікатор клієнта
-  std::string account_number_;  // номер банківського рахунку
-  double account_balance_;      // залишок на рахунку
-  bool account_active_;         // чи активний рахунок
-  // п.13: композиція — картка є частиною клієнта і живе стільки ж,
-  // скільки клієнт (створюється і знищується разом із ним).
+  int client_id_;
+  std::string account_number_;
+  double account_balance_;
+  bool account_active_;
+  // п.13: композиція — картка є частиною клієнта і живе стільки ж, скільки клієнт
   CreditCard card_;
 
   // п.4: статичні поля — одні на всі об'єкти класу Client.
-  static double commission_percent_;  // комісія за переказ між рахунками
-  static int alive_count_;            // скільки клієнтів існує зараз
+  static double commission_percent_;
+  static int alive_count_;
 };
 
-#endif  // CLIENT_H_
+#endif
