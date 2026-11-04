@@ -3,6 +3,7 @@
 
 #include "current_account.h"
 
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
 
@@ -16,7 +17,8 @@ CurrentAccount::CurrentAccount(const std::string& owner_name,
                                const std::string& card_number,
                                double overdraft_limit, double monthly_fee,
                                double daily_limit)
-    : BankAccount(owner_name, bank_name, currency, account_number, balance,
+    : FinancialProduct(owner_name, opening_year),
+      BankAccount(owner_name, bank_name, currency, account_number, balance,
                   opening_year),
       card_number_(card_number),
       overdraft_limit_(overdraft_limit),
@@ -93,4 +95,53 @@ void CurrentAccount::StartNewDay() {
 int CurrentAccount::AccountAgeYears(int current_year) const {
   // ПОМИЛКА: return current_year - opening_year_; — поле private у бази.
   return current_year - opening_year();
+}
+
+double CurrentAccount::MonthlyCost() const { return monthly_fee_; }
+
+std::string CurrentAccount::TypeName() const { return "CurrentAccount"; }
+
+double CurrentAccount::AvailableFunds() const {
+  return std::min(balance_ + overdraft_limit_, daily_limit_ - spent_today_);
+}
+
+void CurrentAccount::Describe() const {
+  FinancialProduct::Describe();
+  BankAccount::DescribeOwn();
+  DescribeOwn();
+}
+
+void CurrentAccount::DescribeOwn() const {
+  std::cout << std::fixed << std::setprecision(2) << "    картка "
+            << card_number_ << " | овердрафт: " << overdraft_limit_
+            << " | доступно зараз: " << AvailableFunds() << ' ' << currency_
+            << '\n';
+}
+
+void CurrentAccount::Write(std::ostream& out) const {
+  WriteHeader(out);
+  BankAccount::WriteOwn(out);
+  WriteOwn(out);
+}
+
+void CurrentAccount::Read(std::istream& in) {
+  ReadHeader(in);
+  BankAccount::ReadOwn(in);
+  ReadOwn(in);
+}
+
+void CurrentAccount::WriteOwn(std::ostream& out) const {
+  out << card_number_ << '\n'
+      << overdraft_limit_ << '\n'
+      << monthly_fee_ << '\n'
+      << daily_limit_ << '\n'
+      << spent_today_ << '\n';
+}
+
+void CurrentAccount::ReadOwn(std::istream& in) {
+  card_number_ = ReadField(in, "номер картки");
+  overdraft_limit_ = ReadNumber(in, "овердрафт");
+  monthly_fee_ = ReadNumber(in, "плата за місяць");
+  daily_limit_ = ReadNumber(in, "денний ліміт");
+  spent_today_ = ReadNumber(in, "витрачено сьогодні");
 }

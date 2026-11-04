@@ -16,9 +16,14 @@
 #ifndef BANK_ACCOUNT_H_
 #define BANK_ACCOUNT_H_
 
+#include <iosfwd>
 #include <string>
 
-class BankAccount {
+#include "financial_product.h"
+
+// ЛР5 п.1, п.2: похідний від абстрактного, віртуальне наслідування.
+// Лишається абстрактним: MonthlyCost() і TypeName() визначають нащадки.
+class BankAccount : public virtual FinancialProduct {
  public:
   // ЛР4 п.2: три public-поля бази для демонстрації керування доступом.
   std::string owner_name_;
@@ -29,11 +34,17 @@ class BankAccount {
               const std::string& currency, const std::string& account_number,
               double balance, int opening_year);
   // ЛР4 п.7, п.8: деструктор повідомляє, коли об'єкт знищується.
-  ~BankAccount();
+  // ЛР5 п.3: віртуальний, бо віртуальний деструктор FinancialProduct.
+  ~BankAccount() override;
+
+  // ЛР5 п.4: власна віртуальна функція — чи можна закрити рахунок.
+  virtual bool CanBeClosed() const;
+  void Describe() const override;
 
   // ЛР4 п.2: три public-методи бази для демонстрації керування доступом.
   bool Deposit(double amount);
   bool Withdraw(double amount);
+  // ЛР5 п.10: невіртуальний — виклик через BankAccount* зв'язується рано.
   void PrintInfo() const;
   void Close();
 
@@ -44,6 +55,10 @@ class BankAccount {
   bool is_active() const { return is_active_; }
 
  protected:
+  void DescribeOwn() const;
+  void WriteOwn(std::ostream& out) const;
+  void ReadOwn(std::istream& in);
+
   std::string account_number_;
   double balance_;
   int transaction_count_;

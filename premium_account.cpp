@@ -29,13 +29,14 @@ PremiumAccount::PremiumAccount(const std::string& owner_name,
                                double coverage_amount,
                                const std::string& program_name,
                                double cashback_percent, int join_year)
-    : CurrentAccount(owner_name, kPremiumBank, kPremiumCurrency,
+    : FinancialProduct(owner_name, opening_year),
+      CurrentAccount(owner_name, kPremiumBank, kPremiumCurrency,
                      account_number, balance, opening_year, card_number,
                      overdraft_limit, kPremiumMonthlyFee, kPremiumDailyLimit),
-      Insurance(policy_number, kInsurer, coverage_amount,
-                kInsuranceRatePercent, kInsuranceTermYears),
-      LoyaltyProgram(program_name, kLoyaltyLevel, cashback_percent,
-                     kPointsPer100, join_year) {
+      Insurance(owner_name, opening_year, policy_number, kInsurer,
+                coverage_amount, kInsuranceRatePercent, kInsuranceTermYears),
+      LoyaltyProgram(owner_name, program_name, kLoyaltyLevel,
+                     cashback_percent, kPointsPer100, join_year) {
   std::cout << "    [5] PremiumAccount(...): преміальний рахунок "
             << account_number_ << '\n';
 }
@@ -62,4 +63,36 @@ void PremiumAccount::PrintInfo() const {
   CurrentAccount::PrintInfo();
   Insurance::Print();
   LoyaltyProgram::Print();
+}
+
+double PremiumAccount::MonthlyCost() const {
+  // ЛР5 п.11: явні виклики версій баз обходять віртуальний механізм.
+  return CurrentAccount::MonthlyCost() + Insurance::MonthlyCost() +
+         LoyaltyProgram::MonthlyCost();
+}
+
+std::string PremiumAccount::TypeName() const { return "PremiumAccount"; }
+
+void PremiumAccount::Describe() const {
+  FinancialProduct::Describe();
+  BankAccount::DescribeOwn();
+  CurrentAccount::DescribeOwn();
+  Insurance::DescribeOwn();
+  LoyaltyProgram::DescribeOwn();
+}
+
+void PremiumAccount::Write(std::ostream& out) const {
+  WriteHeader(out);
+  BankAccount::WriteOwn(out);
+  CurrentAccount::WriteOwn(out);
+  Insurance::WriteOwn(out);
+  LoyaltyProgram::WriteOwn(out);
+}
+
+void PremiumAccount::Read(std::istream& in) {
+  ReadHeader(in);
+  BankAccount::ReadOwn(in);
+  CurrentAccount::ReadOwn(in);
+  Insurance::ReadOwn(in);
+  LoyaltyProgram::ReadOwn(in);
 }

@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <iostream>
 
+#include "exceptions.h"
+
 namespace {
 
 constexpr char kInstallmentCurrency[] = "грн";
@@ -24,7 +26,8 @@ InstallmentPlan::InstallmentPlan(const std::string& owner_name,
                                  const std::string& purchase_description,
                                  double total_amount, int parts_count,
                                  int first_payment_month)
-    : CurrentAccount(owner_name, bank_name, kInstallmentCurrency,
+    : FinancialProduct(owner_name, opening_year),
+      CurrentAccount(owner_name, bank_name, kInstallmentCurrency,
                      account_number, balance, opening_year, kInstallmentCard,
                      overdraft_limit, kInstallmentMonthlyFee, total_amount),
       purchase_description_(purchase_description),
@@ -75,4 +78,44 @@ void InstallmentPlan::PrintSchedule() const {
   }
   std::cout << "    Залишилось сплатити: "
             << part * (parts_count_ - paid_parts_) << " грн\n";
+}
+
+double InstallmentPlan::MonthlyCost() const {
+  return is_completed() ? 0.0 : total_amount_ / parts_count_;
+}
+
+std::string InstallmentPlan::TypeName() const { return "InstallmentPlan"; }
+
+void InstallmentPlan::Describe() const {
+  FinancialProduct::Describe();
+  BankAccount::DescribeOwn();
+  std::cout << std::fixed << std::setprecision(2) << "    розстрочка: «"
+            << purchase_description_ << "» " << total_amount_
+            << " грн | сплачено " << paid_parts_ << " з " << parts_count_
+            << " част.\n";
+}
+
+void InstallmentPlan::Write(std::ostream& out) const {
+  WriteHeader(out);
+  BankAccount::WriteOwn(out);
+  CurrentAccount::WriteOwn(out);
+  out << purchase_description_ << '\n'
+      << total_amount_ << '\n'
+      << parts_count_ << '\n'
+      << paid_parts_ << '\n'
+      << first_payment_month_ << '\n';
+}
+
+void InstallmentPlan::Read(std::istream& in) {
+  ReadHeader(in);
+  BankAccount::ReadOwn(in);
+  CurrentAccount::ReadOwn(in);
+  purchase_description_ = ReadField(in, "покупка");
+  total_amount_ = ReadNumber(in, "сума покупки");
+  parts_count_ = ReadInteger(in, "кількість частин");
+  paid_parts_ = ReadInteger(in, "сплачено частин");
+  first_payment_month_ = ReadInteger(in, "місяць першої виплати");
+  // ЛР5 п.7: виняток — дані прочитано, але вони суперечливі.
+  if (parts_count_ <= 0 || paid_parts_ < 0 || paid_parts_ > parts_count_)
+    throw FileError("пошкоджені дані: некоректна кількість частин");
 }

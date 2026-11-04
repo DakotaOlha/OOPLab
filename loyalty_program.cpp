@@ -6,11 +6,19 @@
 #include <iomanip>
 #include <iostream>
 
-LoyaltyProgram::LoyaltyProgram(const std::string& program_name,
+namespace {
+
+constexpr double kPointValue = 0.1;  // грн за один бал
+
+}  // namespace
+
+LoyaltyProgram::LoyaltyProgram(const std::string& owner,
+                               const std::string& program_name,
                                const std::string& level,
                                double cashback_percent, int points_per_100,
                                int join_year)
-    : program_name_(program_name),
+    : FinancialProduct(owner, join_year),
+      program_name_(program_name),
       level_(level),
       cashback_percent_(cashback_percent),
       cashback_earned_(0.0),
@@ -46,4 +54,53 @@ void LoyaltyProgram::Print() const {
             << " грн | бали: " << points_ << " (" << points_per_100_
             << " за 100 грн) | з " << join_year_
             << " р. | покупок: " << purchases_count_ << '\n';
+}
+
+double LoyaltyProgram::MonthlyCost() const { return -cashback_earned_; }
+
+std::string LoyaltyProgram::TypeName() const { return "LoyaltyProgram"; }
+
+double LoyaltyProgram::BonusValue() const { return points_ * kPointValue; }
+
+void LoyaltyProgram::Describe() const {
+  FinancialProduct::Describe();
+  DescribeOwn();
+}
+
+void LoyaltyProgram::DescribeOwn() const {
+  std::cout << std::fixed << std::setprecision(2) << "    програма «"
+            << program_name_ << "» (" << level_ << ") | бали: " << points_
+            << " = " << BonusValue() << " грн\n";
+}
+
+void LoyaltyProgram::Write(std::ostream& out) const {
+  WriteHeader(out);
+  WriteOwn(out);
+}
+
+void LoyaltyProgram::Read(std::istream& in) {
+  ReadHeader(in);
+  ReadOwn(in);
+}
+
+void LoyaltyProgram::WriteOwn(std::ostream& out) const {
+  out << program_name_ << '\n'
+      << level_ << '\n'
+      << cashback_percent_ << '\n'
+      << cashback_earned_ << '\n'
+      << points_ << '\n'
+      << points_per_100_ << '\n'
+      << join_year_ << '\n'
+      << purchases_count_ << '\n';
+}
+
+void LoyaltyProgram::ReadOwn(std::istream& in) {
+  program_name_ = ReadField(in, "назва програми");
+  level_ = ReadField(in, "рівень");
+  cashback_percent_ = ReadNumber(in, "відсоток кешбеку");
+  cashback_earned_ = ReadNumber(in, "нараховано кешбеку");
+  points_ = ReadInteger(in, "бали");
+  points_per_100_ = ReadInteger(in, "балів за 100 грн");
+  join_year_ = ReadInteger(in, "рік вступу");
+  purchases_count_ = ReadInteger(in, "кількість покупок");
 }

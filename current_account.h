@@ -4,6 +4,7 @@
 #ifndef CURRENT_ACCOUNT_H_
 #define CURRENT_ACCOUNT_H_
 
+#include <iosfwd>
 #include <string>
 
 #include "bank_account.h"
@@ -12,13 +13,24 @@
 // свій рівень доступу.
 class CurrentAccount : public BankAccount {
  public:
+  // ЛР5 п.2: FinancialProduct(...) зі списку ініціалізації виконується,
+  // лише коли CurrentAccount — найпохідніший; у PremiumAccount — ігнорується.
   CurrentAccount(const std::string& owner_name, const std::string& bank_name,
                  const std::string& currency,
                  const std::string& account_number, double balance,
                  int opening_year, const std::string& card_number,
                  double overdraft_limit, double monthly_fee,
                  double daily_limit);
-  ~CurrentAccount();
+  ~CurrentAccount() override;
+
+  // ЛР5 п.4: щомісячна вартість — плата за обслуговування.
+  double MonthlyCost() const override;
+  std::string TypeName() const override;
+  void Describe() const override;
+  void Write(std::ostream& out) const override;
+  void Read(std::istream& in) override;
+  // ЛР5 п.4: власна віртуальна функція — скільки можна витратити зараз.
+  virtual double AvailableFunds() const;
 
   // ЛР4 п.6: без using власний Withdraw приховав би BankAccount::Withdraw.
   using BankAccount::Withdraw;
@@ -32,6 +44,11 @@ class CurrentAccount : public BankAccount {
   const std::string& card_number() const { return card_number_; }
   double overdraft_limit() const { return overdraft_limit_; }
   double spent_today() const { return spent_today_; }
+
+ protected:
+  void DescribeOwn() const;
+  void WriteOwn(std::ostream& out) const;
+  void ReadOwn(std::istream& in);
 
  private:
   std::string card_number_;

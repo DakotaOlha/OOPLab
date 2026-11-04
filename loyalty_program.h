@@ -4,14 +4,28 @@
 #ifndef LOYALTY_PROGRAM_H_
 #define LOYALTY_PROGRAM_H_
 
+#include <iosfwd>
 #include <string>
 
+#include "financial_product.h"
+
 // ЛР4 п.4: одна з трьох баз для множинного наслідування PremiumAccount.
-class LoyaltyProgram {
+// ЛР5 п.1, п.2: похідний від абстрактного, віртуальне наслідування.
+class LoyaltyProgram : public virtual FinancialProduct {
  public:
-  LoyaltyProgram(const std::string& program_name, const std::string& level,
-                 double cashback_percent, int points_per_100, int join_year);
-  ~LoyaltyProgram();
+  LoyaltyProgram(const std::string& owner, const std::string& program_name,
+                 const std::string& level, double cashback_percent,
+                 int points_per_100, int join_year);
+  ~LoyaltyProgram() override;
+
+  // ЛР5 п.4: «вартість» від'ємна — нарахований клієнту кешбек.
+  double MonthlyCost() const override;
+  std::string TypeName() const override;
+  void Describe() const override;
+  void Write(std::ostream& out) const override;
+  void Read(std::istream& in) override;
+  // ЛР5 п.4: власна віртуальна функція — вартість балів у гривнях.
+  virtual double BonusValue() const;
 
   double AddPurchase(double amount);
   // ЛР4 п.6: та сама назва, що й Insurance::Print().
@@ -19,6 +33,11 @@ class LoyaltyProgram {
 
   double cashback_earned() const { return cashback_earned_; }
   int points() const { return points_; }
+
+ protected:
+  void DescribeOwn() const;
+  void WriteOwn(std::ostream& out) const;
+  void ReadOwn(std::istream& in);
 
  private:
   std::string program_name_;

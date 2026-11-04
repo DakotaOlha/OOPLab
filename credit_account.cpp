@@ -14,7 +14,8 @@ CreditAccount::CreditAccount(const std::string& owner_name,
                              double balance, int opening_year,
                              double credit_limit, double interest_rate,
                              int overdue_days)
-    : BankAccount(owner_name, bank_name, currency, account_number, balance,
+    : FinancialProduct(owner_name, opening_year),
+      BankAccount(owner_name, bank_name, currency, account_number, balance,
                   opening_year),
       credit_limit_(credit_limit),
       interest_rate_(interest_rate),
@@ -81,4 +82,40 @@ void CreditAccount::Print() const {
             << credit_limit_ << " | ставка: " << interest_rate_
             << "%/міс. | борг: " << debt_
             << " | прострочено днів: " << overdue_days_ << '\n';
+}
+
+double CreditAccount::MonthlyCost() const {
+  return debt_ * interest_rate_ / 100.0;
+}
+
+std::string CreditAccount::TypeName() const { return "CreditAccount"; }
+
+bool CreditAccount::CanBeClosed() const {
+  return debt_ == 0.0 && BankAccount::CanBeClosed();
+}
+
+void CreditAccount::Describe() const {
+  FinancialProduct::Describe();
+  BankAccount::DescribeOwn();
+  std::cout << std::fixed << std::setprecision(2) << "    кредит: борг "
+            << debt_ << " з " << credit_limit_ << " | ставка: "
+            << interest_rate_ << "%/міс.\n";
+}
+
+void CreditAccount::Write(std::ostream& out) const {
+  WriteHeader(out);
+  BankAccount::WriteOwn(out);
+  out << credit_limit_ << '\n'
+      << interest_rate_ << '\n'
+      << debt_ << '\n'
+      << overdue_days_ << '\n';
+}
+
+void CreditAccount::Read(std::istream& in) {
+  ReadHeader(in);
+  BankAccount::ReadOwn(in);
+  credit_limit_ = ReadNumber(in, "кредитний ліміт");
+  interest_rate_ = ReadNumber(in, "ставка");
+  debt_ = ReadNumber(in, "борг");
+  overdue_days_ = ReadInteger(in, "днів прострочення");
 }

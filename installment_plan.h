@@ -4,13 +4,17 @@
 #ifndef INSTALLMENT_PLAN_H_
 #define INSTALLMENT_PLAN_H_
 
+#include <iosfwd>
 #include <string>
 
 #include "current_account.h"
+#include "financial_product.h"
 
 // ЛР4 п.3: додатковий похідний клас з private-наслідуванням; його методи
 // використовують методи BankAccount і CurrentAccount.
-class InstallmentPlan : private CurrentAccount {
+// ЛР5 п.2: відкритий шлях до віртуального підоб'єкта FinancialProduct.
+class InstallmentPlan : private CurrentAccount,
+                        public virtual FinancialProduct {
  public:
   InstallmentPlan(const std::string& owner_name, const std::string& bank_name,
                   const std::string& account_number, double balance,
@@ -18,7 +22,14 @@ class InstallmentPlan : private CurrentAccount {
                   const std::string& purchase_description,
                   double total_amount, int parts_count,
                   int first_payment_month);
-  ~InstallmentPlan();
+  ~InstallmentPlan() override;
+
+  // ЛР5 п.4: щомісячна вартість — чергова частина (0, якщо все сплачено).
+  double MonthlyCost() const override;
+  std::string TypeName() const override;
+  void Describe() const override;
+  void Write(std::ostream& out) const override;
+  void Read(std::istream& in) override;
 
   // ЛР4 п.6: using відкриває члени непрямої та прямої бази.
   using BankAccount::owner_name_;
