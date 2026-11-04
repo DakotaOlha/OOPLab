@@ -235,7 +235,6 @@ void ShowFileErrors(const std::string& file_name, CurrentAccount& current,
 
 void RunLab5Demo(const std::string& file_name) {
   std::cout << "Лабораторна робота №5, третій рівень, варіант 14\n";
-  FinancialProduct::set_trace(true);
 
   // ЛР5 п.1: абстрактний клас; статичний метод викликається через клас.
   PrintSection("ЛР5 п.1: абстрактний клас FinancialProduct");
@@ -441,5 +440,4 @@ void RunLab5Demo(const std::string& file_name) {
 
   PrintSection("Підсумок ЛР5");
   FinancialProduct::ShowAll();
-  FinancialProduct::set_trace(false);
 }

@@ -23,16 +23,13 @@ std::vector<const FinancialProduct*>& Registry() {
 
 int FinancialProduct::created_count_ = 0;
 int FinancialProduct::alive_count_ = 0;
-bool FinancialProduct::trace_ = false;
 
 FinancialProduct::FinancialProduct(const std::string& owner, int start_year)
     : id_(++created_count_), owner_(owner), start_year_(start_year) {
   ++alive_count_;
   Registry().push_back(this);
-  if (trace_) {
-    std::cout << "    [0] FinancialProduct(...): продукт №" << id_ << " ("
-              << owner_ << ")\n";
-  }
+  std::cout << "    [0] FinancialProduct(...): продукт №" << id_ << " ("
+            << owner_ << ")\n";
 }
 
 FinancialProduct::FinancialProduct(const FinancialProduct& other)
@@ -41,10 +38,8 @@ FinancialProduct::FinancialProduct(const FinancialProduct& other)
       start_year_(other.start_year_) {
   ++alive_count_;
   Registry().push_back(this);
-  if (trace_) {
-    std::cout << "    [0] FinancialProduct(копія №" << other.id_
-              << "): продукт №" << id_ << '\n';
-  }
+  std::cout << "    [0] FinancialProduct(копія №" << other.id_
+            << "): продукт №" << id_ << '\n';
 }
 
 FinancialProduct::~FinancialProduct() {
@@ -52,8 +47,7 @@ FinancialProduct::~FinancialProduct() {
   std::vector<const FinancialProduct*>& registry = Registry();
   registry.erase(std::remove(registry.begin(), registry.end(), this),
                  registry.end());
-  if (trace_)
-    std::cout << "    [~0] ~FinancialProduct(): продукт №" << id_ << '\n';
+  std::cout << "    [~0] ~FinancialProduct(): продукт №" << id_ << '\n';
 }
 
 void FinancialProduct::Describe() const {

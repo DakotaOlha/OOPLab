@@ -43,9 +43,6 @@ class FinancialProduct {
   static void ShowAll();
   static int created_count() { return created_count_; }
   static int alive_count() { return alive_count_; }
-  // Друк конструктора/деструктора FinancialProduct вмикається лише в ЛР5,
-  // щоб вивід демонстрацій ЛР3 і ЛР4 не змінився.
-  static void set_trace(bool trace) { trace_ = trace; }
 
   int id() const { return id_; }
   const std::string& owner() const { return owner_; }
@@ -64,7 +61,6 @@ class FinancialProduct {
  private:
   static int created_count_;
   static int alive_count_;
-  static bool trace_;
 
   int id_;
   std::string owner_;
