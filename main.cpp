@@ -1,5 +1,5 @@
-// Лабораторна робота №6, третій рівень, варіант 14 «Система Платежі».
-// ЛР6: main.cpp – головне меню; разом з lab6_demo.cpp це одна програма.
+// Лабораторна робота №7, третій рівень, варіант 14 «Система Платежі».
+// ЛР7: main.cpp – головне меню; разом з lab7_demo.cpp це одна програма.
 
 #include <exception>
 #include <iostream>
@@ -10,7 +10,7 @@
 #endif
 
 #include "financial_product.h"
-#include "lab6_demo.h"
+#include "lab7_demo.h"
 
 namespace {
 
@@ -35,14 +35,14 @@ int main() {
 #endif
 
   while (true) {
-    std::cout << "\nОберіть: 1 – демонстрація ЛР6, 0 – вихід: ";
+    std::cout << "\nОберіть: 1 – демонстрація ЛР7, 0 – вихід: ";
     int choice = 0;
     if (!ReadChoice(&choice) || choice == 0)
       break;
 
     try {
       if (choice == 1)
-        RunLab6Demo();
+        RunLab7Demo();
       else
         std::cout << "Невідомий вибір.\n";
     } catch (const std::exception& error) {

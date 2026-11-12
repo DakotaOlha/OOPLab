@@ -29,4 +29,6 @@ add_executable(Lab3_OOP
         service.cpp
         lab5_demo.cpp
         payment_record.cpp
-        lab6_demo.cpp)
+        lab6_demo.cpp
+        functors.cpp
+        lab7_demo.cpp)
