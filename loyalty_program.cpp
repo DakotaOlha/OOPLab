@@ -56,7 +56,9 @@ void LoyaltyProgram::Print() const {
             << " р. | покупок: " << purchases_count_ << '\n';
 }
 
-double LoyaltyProgram::MonthlyCost() const { return -cashback_earned_; }
+double LoyaltyProgram::MonthlyCost() const {
+  return cashback_earned_ > 0.0 ? -cashback_earned_ : 0.0;
+}
 
 std::string LoyaltyProgram::TypeName() const { return "LoyaltyProgram"; }
 

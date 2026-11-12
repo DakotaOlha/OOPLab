@@ -1,5 +1,5 @@
-// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
-// ЛР5 п.16: заголовний файл класу CreditCard.
+// Лабораторна робота №6, третій рівень, варіант 14 «Система Платежі».
+// ЛР6 п.1, п.3: заголовний файл класу CreditCard (оператори картки).
 
 #ifndef CREDIT_CARD_H_
 #define CREDIT_CARD_H_
@@ -8,6 +8,7 @@
 #include <string>
 
 constexpr double kTransferCommissionPercent = 1.0;
+constexpr int kMinExpiryYear = 2026;  // строк дії не раніше поточного року
 
 class CreditCard {
  public:
@@ -21,9 +22,25 @@ class CreditCard {
              const std::string& card_type, int expiry_year,
              double credit_limit);
   CreditCard(const CreditCard& other);
-  CreditCard& operator=(const CreditCard& other) = default;
+  // ЛР6 п.3: явний оператор присвоєння.
+  CreditCard& operator=(const CreditCard& other);
   // Деструктор показує, коли об'єкт виходить з блоку програми.
   ~CreditCard();
+
+  // ЛР6 п.1: ++/-- продовжують/скорочують строк дії картки на рік.
+  // Префіксна форма змінює об'єкт і повертає посилання на нього (без копії);
+  // постфіксна повертає копію стану ДО зміни, тому повертає значення.
+  // Фіктивний параметр int лише відрізняє постфіксну форму від префіксної.
+  CreditCard& operator++();
+  CreditCard operator++(int);
+  CreditCard& operator--();
+  CreditCard operator--(int);
+
+  // ЛР6 п.3: += поповнення, -= оплата, *= і * – зміна кредитного ліміту.
+  CreditCard& operator+=(double amount);
+  CreditCard& operator-=(double amount);
+  CreditCard& operator*=(double factor);
+  CreditCard operator*(double factor) const;
 
   bool Pay(double amount);
   bool Pay(double amount, double commission_percent);

@@ -1,5 +1,5 @@
-// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
-// ЛР5 п.16: реалізація класу ProductStore.
+// Лабораторна робота №6, третій рівень, варіант 14 «Система Платежі».
+// ЛР6 п.3: реалізація класу ProductStore (наскрізний operator[]).
 
 #include "product_store.h"
 
@@ -77,6 +77,26 @@ void ProductStore::AddDynamic(FinancialProduct* product) {
                       std::to_string(id) + " знищено");
   }
   dynamic_items_[dynamic_size_++] = product;
+}
+
+// ЛР6 п.3: operator[] – спочатку статичні, потім динамічні продукти.
+FinancialProduct& ProductStore::operator[](int index) {
+  return *Combined(index);
+}
+
+const FinancialProduct& ProductStore::operator[](int index) const {
+  return *Combined(index);
+}
+
+FinancialProduct* ProductStore::Combined(int index) const {
+  if (index < 0 || static_cast<std::size_t>(index) >= size()) {
+    throw MemoryError("operator[]: індекс " + std::to_string(index) +
+                      " поза межами (продуктів " + std::to_string(size()) +
+                      ")");
+  }
+  const std::size_t i = static_cast<std::size_t>(index);
+  return i < static_size_ ? static_items_[i]
+                          : dynamic_items_[i - static_size_];
 }
 
 FinancialProduct* ProductStore::StaticAt(int index) const {

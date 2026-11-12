@@ -27,4 +27,6 @@ add_executable(Lab3_OOP
         transfer_transaction.cpp
         product_store.cpp
         service.cpp
-        lab5_demo.cpp)
+        lab5_demo.cpp
+        payment_record.cpp
+        lab6_demo.cpp)

@@ -1,5 +1,5 @@
-// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
-// ЛР5 п.16: реалізація класу CreditCard.
+// Лабораторна робота №6, третій рівень, варіант 14 «Система Платежі».
+// ЛР6 п.1, п.3: реалізація класу CreditCard (оператори картки).
 
 #include "credit_card.h"
 
@@ -79,6 +79,28 @@ CreditCard::CreditCard(const CreditCard& other)
             << short_number() << '\n';
 }
 
+// ЛР6 п.3: operator= лише копіює поля в уже існуючий об'єкт, тому лічильники
+// карток не змінюються. Перевірка this != &other захищає від самоприсвоєння,
+// а повернення *this дозволяє ланцюжок a = b = c.
+CreditCard& CreditCard::operator=(const CreditCard& other) {
+  if (this == &other) {
+    std::cout << "    [operator=] самоприсвоєння картки " << short_number()
+              << " – без змін\n";
+    return *this;
+  }
+  bank_name_ = other.bank_name_;
+  card_type_ = other.card_type_;
+  expiry_year_ = other.expiry_year_;
+  number_ = other.number_;
+  balance_ = other.balance_;
+  credit_limit_ = other.credit_limit_;
+  transaction_count_ = other.transaction_count_;
+  blocked_ = other.blocked_;
+  std::cout << "    [operator=] присвоєно дані картки " << short_number()
+            << '\n';
+  return *this;
+}
+
 CreditCard::~CreditCard() {
   --alive_count_;
   std::cout << "    [~CreditCard()] знищено картку " << short_number()
@@ -95,6 +117,79 @@ std::string CreditCard::short_number() const {
     return number_;
 
   return "*" + number_.substr(number_.size() - 4);
+}
+
+// ЛР6 п.1: префіксний ++ – продовжити строк дії на рік.
+CreditCard& CreditCard::operator++() {
+  ++expiry_year_;
+  std::cout << "  [Картка " << short_number() << "] Строк дії продовжено до "
+            << expiry_year_ << '\n';
+  return *this;
+}
+
+// ЛР6 п.1: постфіксний ++ – зберегти копію, змінити об'єкт, повернути копію.
+CreditCard CreditCard::operator++(int) {
+  CreditCard before(*this);
+  ++*this;
+  return before;
+}
+
+// ЛР6 п.1: префіксний -- – скоротити строк дії, але не раніше поточного року.
+CreditCard& CreditCard::operator--() {
+  if (expiry_year_ - 1 < kMinExpiryYear) {
+    std::cout << "  [Картка " << short_number() << "] Відмова: строк дії не "
+              << "може бути раніше " << kMinExpiryYear << " року\n";
+    return *this;
+  }
+  --expiry_year_;
+  std::cout << "  [Картка " << short_number() << "] Строк дії скорочено до "
+            << expiry_year_ << '\n';
+  return *this;
+}
+
+// ЛР6 п.1: постфіксний -- – повертає копію стану ДО зміни.
+CreditCard CreditCard::operator--(int) {
+  CreditCard before(*this);
+  --*this;
+  return before;
+}
+
+// ЛР6 п.3: += – поповнення картки.
+CreditCard& CreditCard::operator+=(double amount) {
+  if (amount <= 0.0) {
+    std::cout << "  [Картка " << short_number()
+              << "] Відмова: сума поповнення має бути додатною\n";
+    return *this;
+  }
+  TopUp(amount);
+  return *this;
+}
+
+// ЛР6 п.3: -= – оплата; при відмові Pay стан картки не змінюється.
+CreditCard& CreditCard::operator-=(double amount) {
+  Pay(amount);
+  return *this;
+}
+
+// ЛР6 п.3: *= – запит на зміну кредитного ліміту в factor разів.
+CreditCard& CreditCard::operator*=(double factor) {
+  if (factor < 0.0) {
+    std::cout << "  [Картка " << short_number()
+              << "] Відмова: коефіцієнт ліміту не може бути від'ємним\n";
+    return *this;
+  }
+  credit_limit_ *= factor;
+  std::cout << std::fixed << std::setprecision(2) << "  [Картка "
+            << short_number() << "] Кредитний ліміт змінено: "
+            << credit_limit_ << " грн\n";
+  return *this;
+}
+
+// ЛР6 п.3: * – нова картка з помноженим лімітом, оригінал не змінюється.
+CreditCard CreditCard::operator*(double factor) const {
+  CreditCard result(*this);
+  result *= factor;
+  return result;
 }
 
 bool CreditCard::Pay(double amount) {
