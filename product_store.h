@@ -27,6 +27,7 @@ class ProductStore {
   void Print() const;
 
   // ЛР5 п.6: видаляють з масиву продукти з MonthlyCost() > max_monthly_cost.
+  // Винятки: масив порожній (MemoryError), жоден не підійшов (NotFoundError).
   // Назви з підкресленням — вимога завдання (Google Style: CamelCase).
   int Service_Static(double max_monthly_cost);
   int Service_Dinamic(double max_monthly_cost);

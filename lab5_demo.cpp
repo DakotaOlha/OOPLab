@@ -362,12 +362,19 @@ void RunLab5Demo(const std::string& file_name) {
     } catch (const MemoryError& error) {
       PrintError(error);
     }
+    std::cout << "Виняток 7 — повторний Service_Static: жоден продукт уже "
+                 "не відповідає критерію:\n";
+    try {
+      store.Service_Static(kCostThreshold);
+    } catch (const NotFoundError& error) {
+      PrintError(error);
+    }
 
     ShowFileErrors(file_name, current, insurance);
 
     // ЛР5 п.8: саме меню — RunInteractiveMenu() у main.cpp.
     PrintSection("ЛР5 п.8: меню створення і знищення об'єктів");
-    std::cout << "Інтерактивне меню — пункт 6 головного меню.\n";
+    std::cout << "Інтерактивне меню — пункт 2 головного меню.\n";
 
     // ЛР5 п.9: три способи поліморфного виклику.
     PrintSection("ЛР5 п.9: поліморфні виклики трьома способами");

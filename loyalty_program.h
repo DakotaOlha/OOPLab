@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу LoyaltyProgram (програма лояльності).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу LoyaltyProgram (програма лояльності).
 
 #ifndef LOYALTY_PROGRAM_H_
 #define LOYALTY_PROGRAM_H_
@@ -9,7 +9,7 @@
 
 #include "financial_product.h"
 
-// ЛР4 п.4: одна з трьох баз для множинного наслідування PremiumAccount.
+// Одна з трьох баз для множинного наслідування PremiumAccount.
 // ЛР5 п.1, п.2: похідний від абстрактного, віртуальне наслідування.
 class LoyaltyProgram : public virtual FinancialProduct {
  public:
@@ -28,7 +28,7 @@ class LoyaltyProgram : public virtual FinancialProduct {
   virtual double BonusValue() const;
 
   double AddPurchase(double amount);
-  // ЛР4 п.6: та сама назва, що й Insurance::Print().
+  // Та сама назва, що й Insurance::Print().
   void Print() const;
 
   double cashback_earned() const { return cashback_earned_; }

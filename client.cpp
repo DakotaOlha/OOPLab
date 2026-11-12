@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу Client (з ЛР3, ЛР3 п.17).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу Client.
 
 #include "client.h"
 
@@ -15,7 +15,7 @@ void SkipRestOfLine(std::ifstream& in) {
 
 }  // namespace
 
-// ЛР3 п.4: визначення статичних полів.
+// Визначення статичних полів.
 double Client::commission_percent_ = 1.0;
 int Client::alive_count_ = 0;
 
@@ -33,7 +33,7 @@ Client::Client()
             << last_name_ << '\n';
 }
 
-// ЛР3 п.2, п.13: поля і вкладений об'єкт card_ задаються списком
+// Поля і вкладений об'єкт card_ задаються списком
 // ініціалізації.
 Client::Client(int client_id, const std::string& first_name,
                const std::string& last_name, const std::string& phone,

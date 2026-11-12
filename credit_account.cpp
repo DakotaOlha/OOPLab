@@ -1,12 +1,12 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу CreditAccount.
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу CreditAccount.
 
 #include "credit_account.h"
 
 #include <iomanip>
 #include <iostream>
 
-// ЛР4 п.5: 6 параметрів передаються базі, 3 — власним полям.
+// 6 параметрів передаються базі, 3 — власним полям.
 CreditAccount::CreditAccount(const std::string& owner_name,
                              const std::string& bank_name,
                              const std::string& currency,

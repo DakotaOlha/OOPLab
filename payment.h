@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу Payment (з ЛР3, ЛР3 п.17).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу Payment.
 
 #ifndef PAYMENT_H_
 #define PAYMENT_H_
@@ -11,15 +11,15 @@ class Order;
 
 enum class PaymentType { kCard, kAccount };
 
-// ЛР3 п.11: клас асоціації між Client і Order — сам зв'язок «клієнт
+// Клас асоціації між Client і Order — сам зв'язок «клієнт
 // оплачує замовлення» має власні атрибути (номер, дата, тип, статус).
 class Payment {
  public:
-  // ЛР3 п.2: const-поля і поля-посилання можна задати тільки у списку
+  // Const-поля і поля-посилання можна задати тільки у списку
   // ініціалізації конструктора.
   Payment(int id, const std::string& date, PaymentType type, Client& payer,
           Order& order);
-  // ЛР3 п.1: копія посилається на тих самих клієнта і замовлення.
+  // Копія посилається на тих самих клієнта і замовлення.
   Payment(const Payment& other);
   Payment& operator=(const Payment& other) = delete;
 
@@ -27,7 +27,7 @@ class Payment {
   void Print() const;
 
  private:
-  // ЛР3 п.2: поля-константи та поля-посилання.
+  // Поля-константи та поля-посилання.
   const int id_;
   const std::string date_;
   const PaymentType type_;

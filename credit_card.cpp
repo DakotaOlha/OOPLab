@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу CreditCard (з ЛР3, ЛР3 п.17).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу CreditCard.
 
 #include "credit_card.h"
 
@@ -27,7 +27,7 @@ void SkipRestOfLine(std::ifstream& in) {
 
 }  // namespace
 
-// ЛР3 п.4: визначення статичних полів (пам'ять виділяється один раз).
+// Визначення статичних полів (пам'ять виділяється один раз).
 int CreditCard::alive_count_ = 0;
 int CreditCard::created_count_ = 0;
 
@@ -46,7 +46,7 @@ CreditCard::CreditCard()
             << short_number() << '\n';
 }
 
-// ЛР3 п.2: поля задаються списком ініціалізації.
+// Поля задаються списком ініціалізації.
 CreditCard::CreditCard(const std::string& number, const std::string& bank_name,
                        const std::string& card_type, int expiry_year,
                        double credit_limit)

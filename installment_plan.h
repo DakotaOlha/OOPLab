@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу InstallmentPlan (план виплат).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу InstallmentPlan (план виплат).
 
 #ifndef INSTALLMENT_PLAN_H_
 #define INSTALLMENT_PLAN_H_
@@ -10,7 +10,7 @@
 #include "current_account.h"
 #include "financial_product.h"
 
-// ЛР4 п.3: додатковий похідний клас з private-наслідуванням; його методи
+// Private-наслідування: члени рахунку закриті, а власні методи плану
 // використовують методи BankAccount і CurrentAccount.
 // ЛР5 п.2: відкритий шлях до віртуального підоб'єкта FinancialProduct.
 class InstallmentPlan : private CurrentAccount,
@@ -31,7 +31,7 @@ class InstallmentPlan : private CurrentAccount,
   void Write(std::ostream& out) const override;
   void Read(std::istream& in) override;
 
-  // ЛР4 п.6: using відкриває члени непрямої та прямої бази.
+  // Using відкриває члени непрямої та прямої бази.
   using BankAccount::owner_name_;
   using CurrentAccount::balance;
 

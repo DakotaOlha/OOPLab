@@ -1,17 +1,9 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл базового класу BankAccount.
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу BankAccount.
+// Повна ієрархія ЛР5 — у financial_product.h.
 //
-// ЛР4 п.1: ієрархія класів:
-//   BankAccount
-//     +-- public    CurrentAccount
-//     |               +-- private InstallmentPlan
-//     |               +-- public  PremiumAccount (+ public Insurance,
-//     |                                             public LoyaltyProgram)
-//     +-- protected SavingsAccount
-//     +-- private   CreditAccount
-//
-// Примітка: public-поля, protected/private- та множинне наслідування
-// порушують Google C++ Style Guide, але їх вимагає завдання ЛР4.
+// ЛР5 п.14: public-поля, protected/private- та множинне наслідування
+// відступають від Google C++ Style Guide, але їх вимагає ієрархія завдання.
 
 #ifndef BANK_ACCOUNT_H_
 #define BANK_ACCOUNT_H_
@@ -25,7 +17,6 @@
 // Лишається абстрактним: MonthlyCost() і TypeName() визначають нащадки.
 class BankAccount : public virtual FinancialProduct {
  public:
-  // ЛР4 п.2: три public-поля бази для демонстрації керування доступом.
   std::string owner_name_;
   std::string bank_name_;
   std::string currency_;
@@ -33,7 +24,6 @@ class BankAccount : public virtual FinancialProduct {
   BankAccount(const std::string& owner_name, const std::string& bank_name,
               const std::string& currency, const std::string& account_number,
               double balance, int opening_year);
-  // ЛР4 п.7, п.8: деструктор повідомляє, коли об'єкт знищується.
   // ЛР5 п.3: віртуальний, бо віртуальний деструктор FinancialProduct.
   ~BankAccount() override;
 
@@ -41,7 +31,6 @@ class BankAccount : public virtual FinancialProduct {
   virtual bool CanBeClosed() const;
   void Describe() const override;
 
-  // ЛР4 п.2: три public-методи бази для демонстрації керування доступом.
   bool Deposit(double amount);
   bool Withdraw(double amount);
   // ЛР5 п.10: невіртуальний — виклик через BankAccount* зв'язується рано.

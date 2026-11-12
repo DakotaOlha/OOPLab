@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу CurrentAccount.
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу CurrentAccount.
 
 #include "current_account.h"
 
@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <iostream>
 
-// ЛР4 п.5: 10 параметрів — 6 передаються конструктору бази у списку
+// 10 параметрів — 6 передаються конструктору бази у списку
 // ініціалізації, решта 4 ініціалізують власні поля.
 CurrentAccount::CurrentAccount(const std::string& owner_name,
                                const std::string& bank_name,
@@ -34,7 +34,7 @@ CurrentAccount::~CurrentAccount() {
 }
 
 bool CurrentAccount::Withdraw(double amount, bool use_overdraft) {
-  // ЛР4 п.2: private-поле бази недоступне, лише через public-геттер.
+  // Private-поле бази недоступне, лише через public-геттер.
   // ПОМИЛКА: if (!is_active_) — 'is_active_' is private within BankAccount.
   if (!is_active() || amount <= 0.0) {
     std::cout << "  [" << account_number_ << "] Відмова: рахунок закрито.\n";
@@ -48,7 +48,7 @@ bool CurrentAccount::Withdraw(double amount, bool use_overdraft) {
     return false;
   }
 
-  // ЛР4 п.2: protected-поле бази balance_ доступне в похідному класі.
+  // Protected-поле бази balance_ доступне в похідному класі.
   const double available =
       balance_ + (use_overdraft ? overdraft_limit_ : 0.0);
   if (available < amount) {
@@ -69,7 +69,7 @@ bool CurrentAccount::Withdraw(double amount, bool use_overdraft) {
 }
 
 void CurrentAccount::PrintInfo() const {
-  // ЛР4 п.6: виклик прихованого методу бази через оператор ::.
+  // Виклик прихованого методу бази через оператор ::.
   BankAccount::PrintInfo();
   std::cout << std::fixed << std::setprecision(2) << "    поточний: картка "
             << card_number_ << " | овердрафт: " << overdraft_limit_

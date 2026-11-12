@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу SavingsAccount (депозитний рахунок).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу SavingsAccount (депозитний рахунок).
 
 #ifndef SAVINGS_ACCOUNT_H_
 #define SAVINGS_ACCOUNT_H_
@@ -12,7 +12,7 @@
 
 constexpr double kEarlyWithdrawPenaltyPercent = 3.0;
 
-// ЛР4 п.2: protected-наслідування — public-члени бази стають protected,
+// Protected-наслідування — public-члени бази стають protected,
 // тому ззовні недоступні без using.
 // ЛР5 п.2: другий, відкритий шлях до того самого (virtual) підоб'єкта
 // FinancialProduct: інтерфейс продукту public, члени BankAccount — protected.
@@ -35,7 +35,7 @@ class SavingsAccount : protected BankAccount,
   // ЛР5 п.4: депозит можна закрити лише після завершення строку.
   bool CanBeClosed() const override;
 
-  // ЛР4 п.6: using повертає обраним членам бази public-доступ.
+  // Using повертає обраним членам бази public-доступ.
   using BankAccount::PrintInfo;
   using BankAccount::balance;
   using BankAccount::owner_name_;

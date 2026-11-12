@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу PremiumAccount.
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу PremiumAccount.
 
 #include "premium_account.h"
 
@@ -19,7 +19,7 @@ constexpr int kPointsPer100 = 2;
 
 }  // namespace
 
-// ЛР4 п.4, п.5: 11 параметрів розподіляються між трьома базами.
+// 11 параметрів розподіляються між трьома базами.
 PremiumAccount::PremiumAccount(const std::string& owner_name,
                                const std::string& account_number,
                                double balance, int opening_year,

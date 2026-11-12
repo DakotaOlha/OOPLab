@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу Insurance (страховий поліс).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу Insurance (страховий поліс).
 
 #ifndef INSURANCE_H_
 #define INSURANCE_H_
@@ -9,7 +9,7 @@
 
 #include "financial_product.h"
 
-// ЛР4 п.4: одна з трьох баз для множинного наслідування PremiumAccount.
+// Одна з трьох баз для множинного наслідування PremiumAccount.
 // ЛР5 п.1, п.2: похідний від абстрактного, віртуальне наслідування.
 class Insurance : public virtual FinancialProduct {
  public:
@@ -29,7 +29,7 @@ class Insurance : public virtual FinancialProduct {
 
   double AnnualPremium() const;
   double RegisterClaim(double damage);
-  // ЛР4 п.6: та сама назва, що й LoyaltyProgram::Print().
+  // Та сама назва, що й LoyaltyProgram::Print().
   void Print() const;
 
   const std::string& policy_number() const { return policy_number_; }

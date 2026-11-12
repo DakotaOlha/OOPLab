@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу Client (з ЛР3, ЛР3 п.17).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу Client.
 
 #ifndef CLIENT_H_
 #define CLIENT_H_
@@ -15,7 +15,7 @@ class Client {
   std::string last_name_;
   std::string phone_;
 
-  // ЛР3 п.1: конструктори без параметрів, з параметрами та копіювання.
+  // Конструктори без параметрів, з параметрами та копіювання.
   Client();
   Client(int client_id, const std::string& first_name,
          const std::string& last_name, const std::string& phone,
@@ -23,7 +23,7 @@ class Client {
          const CreditCard& card);
   Client(const Client& other);
   Client& operator=(const Client& other) = default;
-  // ЛР3 п.3: деструктор показує вихід об'єкта з блоку програми;
+  // Деструктор показує вихід об'єкта з блоку програми;
   // після нього автоматично викликається ~CreditCard() для card_.
   ~Client();
 
@@ -46,7 +46,7 @@ class Client {
   const CreditCard& card() const { return card_; }
   CreditCard& mutable_card() { return card_; }
 
-  // ЛР3 п.4: статичні методи — спільна комісія для всіх клієнтів банку.
+  // Статичні методи — спільна комісія для всіх клієнтів банку.
   static double commission_percent() { return commission_percent_; }
   static void set_commission_percent(double percent);
   static int alive_count() { return alive_count_; }
@@ -56,10 +56,10 @@ class Client {
   std::string account_number_;
   double account_balance_;
   bool account_active_;
-  // ЛР3 п.13: композиція — картка є частиною клієнта і живе разом з ним.
+  // Композиція — картка є частиною клієнта і живе разом з ним.
   CreditCard card_;
 
-  // ЛР3 п.4: статичні поля — одні на всі об'єкти класу Client.
+  // Статичні поля — одні на всі об'єкти класу Client.
   static double commission_percent_;
   static int alive_count_;
 };

@@ -6,9 +6,21 @@
 #include <iomanip>
 #include <iostream>
 #include <new>
+#include <sstream>
 #include <string>
 
 #include "exceptions.h"
+
+namespace {
+
+std::string NoMatchMessage(const std::string& array_name, double threshold) {
+  std::ostringstream message;
+  message << std::fixed << std::setprecision(2) << "у масиві " << array_name
+          << " немає продуктів з вартістю > " << threshold << " грн/міс.";
+  return message.str();
+}
+
+}  // namespace
 
 ProductStore::ProductStore(std::size_t capacity)
     : capacity_(capacity),
@@ -126,6 +138,9 @@ int ProductStore::Service_Static(double max_monthly_cost) {
       ++i;
     }
   }
+  // ЛР5 п.6: виняток — жоден об'єкт не відповідає критерію видалення.
+  if (removed == 0)
+    throw NotFoundError(NoMatchMessage("статичних", max_monthly_cost));
   return removed;
 }
 
@@ -150,6 +165,9 @@ int ProductStore::Service_Dinamic(double max_monthly_cost) {
       ++i;
     }
   }
+  // ЛР5 п.6: виняток — жоден об'єкт не відповідає критерію видалення.
+  if (removed == 0)
+    throw NotFoundError(NoMatchMessage("динамічних", max_monthly_cost));
   return removed;
 }
 

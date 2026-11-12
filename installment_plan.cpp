@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: реалізація класу InstallmentPlan.
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: реалізація класу InstallmentPlan.
 
 #include "installment_plan.h"
 
@@ -16,7 +16,7 @@ constexpr double kInstallmentMonthlyFee = 0.0;
 
 }  // namespace
 
-// ЛР4 п.5: базі CurrentAccount передається 10 аргументів (6 параметрів
+// Базі CurrentAccount передається 10 аргументів (6 параметрів
 // конструктора і 4 значення плану), решта параметрів — власним полям.
 InstallmentPlan::InstallmentPlan(const std::string& owner_name,
                                  const std::string& bank_name,

@@ -1,5 +1,5 @@
-// Лабораторна робота №4, третій рівень, варіант 14 «Система Платежі».
-// ЛР4 п.13: заголовний файл класу CurrentAccount (поточний рахунок).
+// Лабораторна робота №5, третій рівень, варіант 14 «Система Платежі».
+// ЛР5 п.16: заголовний файл класу CurrentAccount (поточний рахунок).
 
 #ifndef CURRENT_ACCOUNT_H_
 #define CURRENT_ACCOUNT_H_
@@ -9,7 +9,7 @@
 
 #include "bank_account.h"
 
-// ЛР4 п.2: public-наслідування — public і protected члени бази зберігають
+// Public-наслідування — public і protected члени бази зберігають
 // свій рівень доступу.
 class CurrentAccount : public BankAccount {
  public:
@@ -32,7 +32,7 @@ class CurrentAccount : public BankAccount {
   // ЛР5 п.4: власна віртуальна функція — скільки можна витратити зараз.
   virtual double AvailableFunds() const;
 
-  // ЛР4 п.6: без using власний Withdraw приховав би BankAccount::Withdraw.
+  // Без using власний Withdraw приховав би BankAccount::Withdraw.
   using BankAccount::Withdraw;
   bool Withdraw(double amount, bool use_overdraft);
 
